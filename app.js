@@ -1,15 +1,20 @@
 const express = require("express");
+const fs = require("fs");
 
 const app = express();
 
 const port = 3000;
 
-app.get('/', (req, res) => {
-    res.status(200).json({ message: "Hellow from the server side" })
-})
+const tour = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`))
 
-app.post("/", (req, res) => {
-    res.send("post method");
+app.get("/api/v1/tours", (req, res) => {
+    res.status(200).json({
+        status: "success",
+        result: tour.length,
+         data: {
+            tour: tour
+        }
+    })
 })
 
 app.listen(port, () => {
